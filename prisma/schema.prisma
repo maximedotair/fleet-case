@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Device {
+  id         String    @id @default(cuid())
+  name       String
+  type       String
+  employeeId String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("devices")
+}
+
+model order_items {
+  id          Int       @id @default(autoincrement())
+  order_id    Int
+  product_id  Int
+  quantity    Int
+  unit_price  Decimal
+  total_price Decimal
+  created_at  DateTime? @default(now())
+  products    products  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  orders      orders    @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([product_id], map: "idx_order_items_product_id")
+  @@index([order_id], map: "idx_order_items_order_id")
+}
+
+model orders {
+  id               Int           @id @default(autoincrement())
+  user_id          Int
+  order_number     String        @unique(map: "sqlite_autoindex_orders_1")
+  status           String?       @default("pending")
+  total_amount     Decimal
+  shipping_address String?
+  order_date       DateTime?     @default(now())
+  shipped_date     DateTime?
+  delivered_date   DateTime?
+  created_at       DateTime?     @default(now())
+  updated_at       DateTime?     @default(now())
+  order_items      order_items[]
+  users            users         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([order_date], map: "idx_orders_order_date")
+  @@index([user_id], map: "idx_orders_user_id")
+}
+
+model products {
+  id             Int           @id @default(autoincrement())
+  name           String
+  description    String?
+  price          Decimal
+  stock_quantity Int?          @default(0)
+  category       String?
+  sku            String?       @unique(map: "sqlite_autoindex_products_1")
+  is_active      Boolean?      @default(true)
+  created_at     DateTime?     @default(now())
+  updated_at     DateTime?     @default(now())
+  order_items    order_items[]
+
+  @@index([sku], map: "idx_products_sku")
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique(map: "sqlite_autoindex_users_1")
+  first_name String
+  last_name  String
+  phone      String?
+  address    String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  orders     orders[]
+
+  @@index([email], map: "idx_users_email")
+}
