@@ -1,14 +1,13 @@
-# Unified Fleet Management & E-commerce System
+# Fleet Management System - Technical Case Study
 
-A comprehensive full-stack application combining fleet management and e-commerce functionality, built with modern web technologies and clean architecture principles.
+A full-stack fleet management application with integrated e-commerce functionality, demonstrating modern web development practices and clean architecture.
 
 ## 🚀 Features
 
-- **User Management**: Unified users serving as both employees and customers
+- **Employee Management**: Unified user system for employee tracking
 - **Device Management**: Fleet equipment assignment and tracking
-- **E-commerce Platform**: Product catalog, orders, and sales management
-- **Sales Prediction**: Advanced AI-powered sales forecasting
-- **Real-time Analytics**: Business intelligence dashboards
+- **E-commerce Integration**: Product catalog and order management
+- **Sales Analytics**: Data analysis and prediction capabilities
 - **Responsive Design**: Full mobile and desktop compatibility
 - **Clean Architecture**: Domain-driven design with separation of concerns
 - **Type Safety**: Full TypeScript implementation with Zod validation
@@ -20,7 +19,6 @@ A comprehensive full-stack application combining fleet management and e-commerce
 - **Database**: SQLite with Prisma ORM (unified schema)
 - **Validation**: Zod for schema validation
 - **Testing**: Jest with component and API testing
-- **Analytics**: Custom sales prediction algorithms
 - **Icons**: Lucide React
 - **Package Manager**: pnpm
 
@@ -203,7 +201,7 @@ erDiagram
 - Node.js 18+ 
 - pnpm
 
-### Installation
+### Installation & Database Setup
 
 1. **Clone the repository**
    ```bash
@@ -216,19 +214,26 @@ erDiagram
    pnpm install
    ```
 
-3. **Set up the database**
-   ```bash
-   pnpm db:generate
-   pnpm db:push
-   ```
-
-4. **Start the development server**
+3. **Start the development server**
    ```bash
    pnpm dev
    ```
 
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+4. **Initialize the database via the interface (Recommended)**
+   - Navigate to [http://localhost:3000](http://localhost:3000)
+   - The application will automatically detect if database initialization is needed
+   - Use the interface to initialize the database with sample data from SQL files
+   - This approach uses the `sql/structure.sql` file as the source of truth
+
+5. **Alternative: Initialize via Prisma (Optional)**
+   ```bash
+   # Only if you prefer not to use the web interface
+   pnpm db:generate
+   pnpm db:push
+   pnpm db:seed
+   ```
+
+> **Note**: The application uses SQLite for development with a unified schema approach. The web interface provides a SQL-first workflow where `sql/structure.sql` serves as the source of truth, then syncs to Prisma automatically.
 
 ## 📝 API Endpoints
 
@@ -268,18 +273,16 @@ erDiagram
 - Filter by type, owner, or unassigned devices
 - Asset management and audit trails
 
-### E-commerce Platform
+### E-commerce Integration
 - Product catalog with inventory management
 - Order processing and status tracking
 - Customer relationship management
 - Sales analytics and reporting
 
-### Sales Prediction Engine
-- AI-powered sales forecasting algorithms
-- Linear regression and moving averages
-- Trend analysis with confidence scoring
-- Seasonal pattern detection
-- Business intelligence recommendations
+### Analytics Features
+- Sales data analysis and basic predictions
+- Trend analysis with SQL queries
+- Business reporting capabilities
 
 ### Data Validation
 - Schema validation using Zod
@@ -335,35 +338,23 @@ The application can be deployed on any platform that supports Next.js:
 - AWS
 - Docker containers
 
-## 📈 Future Enhancements
+## 🔮 Technical Highlights
 
-### Fleet Management
-- Advanced asset tracking (location, maintenance)
-- Automated assignment workflows
-- Integration with HR systems
-- Mobile device management (MDM)
+This project demonstrates:
 
-### E-commerce
-- Payment processing integration
-- Inventory management automation
-- Customer loyalty programs
-- Multi-channel sales support
+### Architecture Patterns
+- **Clean Architecture**: Clear separation between presentation, business, and data layers
+- **Domain-Driven Design**: Entities and DTOs representing business concepts
+- **SQL-First Approach**: Database schema defined in SQL, then synchronized to ORM
 
-### Analytics & AI
-- Machine learning model improvements
-- Real-time analytics dashboards
-- Predictive maintenance for devices
-- Advanced business intelligence
-- Custom reporting tools
+### Modern Technologies
+- **Next.js 15**: Latest React framework with App Router
+- **TypeScript**: Full type safety across frontend and backend
+- **Prisma**: Type-safe database access with automated client generation
+- **Tailwind CSS**: Utility-first styling with responsive design
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
+### Development Practices
+- **Testing**: Unit tests for components and API endpoints
+- **Validation**: Schema validation with Zod
+- **Code Quality**: ESLint and TypeScript for code consistency
+- **Database Management**: Automated sync between SQL files and ORM schema
