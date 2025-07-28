@@ -220,16 +220,21 @@ erDiagram
    ```
 
 4. **Initialize the database via the interface (Recommended)**
-   - Navigate to [http://localhost:3000](http://localhost:3000)
+   - Navigate to [http://localhost:3000/ecommerce](http://localhost:3000/ecommerce)
    - The application will automatically detect if database initialization is needed
-   - Use the interface to initialize the database with sample data from SQL files
+   - Select the SQL option to initialize the database with sample data from SQL files
    - This approach uses the `sql/structure.sql` file as the source of truth
+   - The `pnpm prisma db pull` will be executed automatically to sync the schema
+   - You may need to restart the development server with `pnpm run dev` after initialization 
 
 5. **Alternative: Initialize via Prisma (Optional)**
    ```bash
    # Only if you prefer not to use the web interface
+   # This creates the database from the Prisma schema without sample data
    pnpm db:generate
    pnpm db:push
+   
+   # Optional: Add sample data using seed
    pnpm db:seed
    ```
 
